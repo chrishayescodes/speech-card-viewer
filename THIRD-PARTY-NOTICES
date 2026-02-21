@@ -1,0 +1,45 @@
+Third-Party Software Notices
+============================
+
+Speech Card Viewer uses the following open-source libraries:
+
+
+Avalonia
+--------
+Copyright (c) AvaloniaUI OÜ
+License: MIT
+https://github.com/AvaloniaUI/Avalonia
+
+Includes Avalonia, Avalonia.Desktop, Avalonia.Themes.Fluent,
+Avalonia.Fonts.Inter, and Avalonia.Diagnostics.
+
+
+Inter Font
+----------
+Copyright (c) 2016-2024 The Inter Project Authors
+License: SIL Open Font License 1.1
+https://github.com/rsms/inter
+
+Bundled via Avalonia.Fonts.Inter. The SIL OFL permits free use, bundling,
+and redistribution with software. The font files may not be sold by
+themselves.
+
+
+CommunityToolkit.Mvvm
+---------------------
+Copyright (c) .NET Foundation and Contributors
+License: MIT
+https://github.com/CommunityToolkit/dotnet
+
+
+QuestPDF
+--------
+Copyright (c) Marcin Ziąbek
+License: MIT (Community tier)
+https://github.com/QuestPDF/QuestPDF
+
+QuestPDF uses a hybrid licensing model. This project qualifies for the free
+Community MIT license as open-source software. Organizations with annual
+gross revenue of $1M USD or more that use QuestPDF must purchase a
+Professional or Enterprise license. See https://www.questpdf.com/license/
+for full details.

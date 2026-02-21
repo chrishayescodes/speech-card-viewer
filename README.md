@@ -55,4 +55,6 @@ tests/CardViewer.Tests/
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) — see [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES) for dependency licenses.
+
+PDF export uses [QuestPDF](https://www.questpdf.com/), which is free for open-source and companies with less than $1M annual revenue. Larger organizations should review [QuestPDF's license terms](https://www.questpdf.com/license/).
