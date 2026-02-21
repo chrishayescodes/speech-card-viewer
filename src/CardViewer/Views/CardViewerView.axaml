@@ -1,0 +1,183 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CardViewer.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:m="using:CardViewer.Models"
+             xmlns:conv="using:CardViewer.Converters"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="550"
+             x:Class="CardViewer.Views.CardViewerView"
+             x:DataType="vm:CardViewerViewModel"
+             Focusable="True">
+
+    <UserControl.Resources>
+        <conv:HighlightBrushConverter x:Key="HighlightBrush"/>
+        <conv:ActiveFontWeightConverter x:Key="ActiveFontWeight"/>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <!-- Bottom navigation bar -->
+        <Border DockPanel.Dock="Bottom"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                Padding="16,10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+                <Button Content="&#x23EE;" FontSize="16"
+                        Command="{Binding PreviousChapterCommand}"
+                        IsEnabled="{Binding CanGoPreviousChapter}"
+                        ToolTip.Tip="Previous section"
+                        MinWidth="40" Padding="8,4"/>
+                <Button Content="&#x25C0;" FontSize="12"
+                        Command="{Binding PreviousCardCommand}"
+                        IsEnabled="{Binding CanGoPrevious}"
+                        ToolTip.Tip="Previous card"
+                        MinWidth="40" Padding="8,4"/>
+                <TextBlock Text="{Binding CardPosition}"
+                           VerticalAlignment="Center"
+                           FontSize="14" MinWidth="100"
+                           TextAlignment="Center"
+                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                <Button Content="&#x25B6;" FontSize="12"
+                        Command="{Binding NextCardCommand}"
+                        IsEnabled="{Binding CanGoNext}"
+                        ToolTip.Tip="Next card"
+                        MinWidth="40" Padding="8,4"/>
+                <Button Content="&#x23ED;" FontSize="16"
+                        Command="{Binding NextChapterCommand}"
+                        IsEnabled="{Binding CanGoNextChapter}"
+                        ToolTip.Tip="Next section"
+                        MinWidth="40" Padding="8,4"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main content area with sidebar -->
+        <Grid ColumnDefinitions="Auto,*">
+            <!-- Sidebar -->
+            <DockPanel Grid.Column="0">
+                <!-- Sidebar header -->
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="0">
+                    <Button Command="{Binding ToggleSidebarCommand}"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="8,6"
+                            ToolTip.Tip="Toggle outline sidebar"
+                            FontSize="12">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock Text="&#x2630;" FontSize="14"/>
+                            <TextBlock Text="Outline" IsVisible="{Binding IsSidebarOpen}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <StackPanel Orientation="Horizontal" Spacing="2"
+                                IsVisible="{Binding IsSidebarOpen}"
+                                VerticalAlignment="Center">
+                        <Button Content="+" Command="{Binding ExpandAllCommand}"
+                                ToolTip.Tip="Expand all"
+                                Background="Transparent" BorderThickness="0"
+                                Padding="6,2" FontSize="12" MinWidth="0" MinHeight="0"/>
+                        <Button Content="&#x2212;" Command="{Binding CollapseAllCommand}"
+                                ToolTip.Tip="Collapse all"
+                                Background="Transparent" BorderThickness="0"
+                                Padding="6,2" FontSize="12" MinWidth="0" MinHeight="0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Tree panel -->
+                <Border IsVisible="{Binding IsSidebarOpen}"
+                        Width="220"
+                        BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                        BorderThickness="0,0,1,0"
+                        Padding="4,0,4,4">
+                    <TreeView ItemsSource="{Binding OutlineNodes}"
+                              Name="OutlineSidebar"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <TreeView.Styles>
+                            <Style Selector="TreeViewItem" x:DataType="m:OutlineNode">
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                            </Style>
+                        </TreeView.Styles>
+                        <TreeView.ItemTemplate>
+                            <TreeDataTemplate ItemsSource="{Binding Children}" x:DataType="m:OutlineNode">
+                                <Border Padding="4,2" CornerRadius="3"
+                                        Background="{Binding IsHighlighted, Converter={StaticResource HighlightBrush}}">
+                                    <TextBlock Text="{Binding Title}"
+                                               FontSize="12"
+                                               FontWeight="{Binding IsHighlighted, Converter={StaticResource ActiveFontWeight}}"
+                                               TextTrimming="CharacterEllipsis"/>
+                                </Border>
+                            </TreeDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </Border>
+            </DockPanel>
+
+            <!-- Centered card area -->
+            <Grid Grid.Column="1">
+                <!-- The 3x5 card -->
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Width="500" Height="300"
+                        Background="White"
+                        CornerRadius="6"
+                        BoxShadow="0 2 12 0 #30000000, 0 1 4 0 #20000000"
+                        BorderBrush="#E0E0E0" BorderThickness="1"
+                        Padding="14,10">
+                    <DockPanel>
+                        <!-- Hierarchy — escalating size toward topic -->
+                        <ItemsControl DockPanel.Dock="Top"
+                                      ItemsSource="{Binding CurrentCard.HierarchyItems}"
+                                      Margin="0,0,0,4">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="m:HierarchyItem">
+                                    <TextBlock Text="{Binding Text}"
+                                               FontSize="{Binding FontSize}"
+                                               FontWeight="{Binding FontWeight}"
+                                               Foreground="{Binding Foreground}"
+                                               Margin="{Binding Indent, StringFormat='{}{0},0,0,1'}"
+                                               TextTrimming="CharacterEllipsis"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- Card number bottom-right, minimal -->
+                        <TextBlock DockPanel.Dock="Bottom"
+                                   HorizontalAlignment="Right"
+                                   Text="{Binding CardPosition}"
+                                   Foreground="#CCCCCC"
+                                   FontSize="9"
+                                   Margin="0,4,0,0"/>
+
+                        <!-- Main topic — scales down to fit, never up -->
+                        <Viewbox Stretch="Uniform"
+                                 StretchDirection="DownOnly"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center">
+                            <StackPanel MaxWidth="470">
+                                <TextBlock Text="{Binding CurrentCard.Topic}"
+                                           FontSize="32" FontWeight="SemiBold"
+                                           TextWrapping="Wrap"
+                                           Foreground="#1A1A1A"
+                                           TextAlignment="Left"/>
+
+                                <!-- Bullet points (depth 3+ items) -->
+                                <ItemsControl ItemsSource="{Binding CurrentCard.Bullets}"
+                                              IsVisible="{Binding CurrentCard.HasBullets}"
+                                              Margin="4,8,0,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="m:BulletItem">
+                                            <StackPanel Orientation="Horizontal"
+                                                        Margin="{Binding Indent, StringFormat='{}{0},0,0,2'}">
+                                                <TextBlock Text="&#x2022; " FontSize="14"
+                                                           Foreground="#555555"/>
+                                                <TextBlock Text="{Binding Text}" FontSize="14"
+                                                           Foreground="#333333"
+                                                           TextWrapping="Wrap"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Viewbox>
+                    </DockPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</UserControl>

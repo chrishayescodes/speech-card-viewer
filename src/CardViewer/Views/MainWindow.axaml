@@ -1,0 +1,119 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CardViewer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="650"
+        x:Class="CardViewer.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Speech Card Viewer"
+        Width="950" Height="680"
+        MinWidth="700" MinHeight="500">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <DockPanel>
+        <!-- Menu bar -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Click="OnOpenClick"/>
+                <MenuItem Header="_Import Markdown..." Click="OnImportClick"/>
+                <MenuItem Header="_Save..." Click="OnSaveClick"/>
+                <Separator/>
+                <MenuItem Header="_Export PDF..." Click="OnExportPdfClick"/>
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Editor" Command="{Binding NavigateToEditorCommand}"/>
+                <MenuItem Header="_Practice" Command="{Binding NavigateToViewerCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Top bar -->
+        <Border DockPanel.Dock="Top"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                BorderThickness="0,0,0,1">
+            <DockPanel Height="36">
+                <!-- View tabs -->
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="0">
+                    <!-- Editor tab -->
+                    <Button Command="{Binding NavigateToEditorCommand}"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="16,0" Height="36" CornerRadius="0"
+                            FontSize="13">
+                        <StackPanel>
+                            <TextBlock Text="Editor" HorizontalAlignment="Center"
+                                       Margin="0,8,0,6"
+                                       FontWeight="{Binding IsEditorActive,
+                                           Converter={StaticResource ActiveFontWeight}}"/>
+                            <Border Height="2" Margin="-4,0"
+                                    Background="{DynamicResource SystemAccentColor}"
+                                    IsVisible="{Binding IsEditorActive}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Practice tab -->
+                    <Button Command="{Binding NavigateToViewerCommand}"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="16,0" Height="36" CornerRadius="0"
+                            FontSize="13">
+                        <StackPanel>
+                            <TextBlock Text="Practice" HorizontalAlignment="Center"
+                                       Margin="0,8,0,6"
+                                       FontWeight="{Binding IsPracticeActive,
+                                           Converter={StaticResource ActiveFontWeight}}"/>
+                            <Border Height="2" Margin="-4,0"
+                                    Background="{DynamicResource SystemAccentColor}"
+                                    IsVisible="{Binding IsPracticeActive}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!-- File action icon buttons -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="2"
+                            Margin="0,0,8,0" VerticalAlignment="Center">
+                    <Button Click="OnOpenClick" ToolTip.Tip="Open"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="6,4" FontSize="16" MinWidth="0">
+                        <TextBlock Text="&#x1F4C2;"/>
+                    </Button>
+                    <Button Click="OnImportClick" ToolTip.Tip="Import Markdown"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="6,4" FontSize="16" MinWidth="0">
+                        <TextBlock Text="&#x1F4E5;"/>
+                    </Button>
+                    <Button Click="OnSaveClick" ToolTip.Tip="Save"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="6,4" FontSize="16" MinWidth="0">
+                        <TextBlock Text="&#x1F4BE;"/>
+                    </Button>
+                    <Border Width="1"
+                            Background="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                            Margin="4,6"/>
+                    <Button Click="OnExportPdfClick" ToolTip.Tip="Export PDF"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="6,4" FontSize="16" MinWidth="0">
+                        <TextBlock Text="&#x1F4C4;"/>
+                    </Button>
+                </StackPanel>
+
+                <Border/>
+            </DockPanel>
+        </Border>
+
+        <!-- Bottom status bar -->
+        <Border DockPanel.Dock="Bottom"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                Padding="12,4"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                BorderThickness="0,1,0,0">
+            <TextBlock Text="{Binding StatusMessage}" FontSize="12"
+                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+        </Border>
+
+        <!-- Main content area -->
+        <ContentControl Content="{Binding CurrentView}" Margin="0"/>
+    </DockPanel>
+</Window>

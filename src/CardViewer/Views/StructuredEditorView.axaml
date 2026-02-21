@@ -1,0 +1,82 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CardViewer.ViewModels"
+             xmlns:m="using:CardViewer.Models"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="550"
+             x:Class="CardViewer.Views.StructuredEditorView"
+             x:DataType="vm:StructuredEditorViewModel"
+             Focusable="True">
+
+    <DockPanel>
+        <!-- Toolbar -->
+        <Border DockPanel.Dock="Top"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                Padding="8,4"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" Spacing="4">
+                <Button Content="+ Add" Command="{Binding AddItemCommand}"
+                        ToolTip.Tip="Add sibling (Enter)" MinWidth="60" FontSize="12"/>
+                <Button Content="+ Child" Command="{Binding AddChildCommand}"
+                        ToolTip.Tip="Add child (Tab on new)" MinWidth="60" FontSize="12"/>
+                <Button Content="Remove" Command="{Binding RemoveItemCommand}"
+                        ToolTip.Tip="Delete (Del)" MinWidth="60" FontSize="12"/>
+                <Border Width="1"
+                        Background="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                        Margin="4,4"/>
+                <Button Content="Promote" Command="{Binding PromoteCommand}"
+                        ToolTip.Tip="Move up a level (Shift+Tab)" MinWidth="70" FontSize="12"/>
+                <Button Content="Demote" Command="{Binding DemoteCommand}"
+                        ToolTip.Tip="Nest under previous sibling (Tab)" MinWidth="70" FontSize="12"/>
+                <Border Width="1"
+                        Background="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                        Margin="4,4"/>
+                <Button Content="Up" Command="{Binding MoveUpCommand}"
+                        ToolTip.Tip="Move up (Ctrl+Up)" MinWidth="40" FontSize="12"/>
+                <Button Content="Down" Command="{Binding MoveDownCommand}"
+                        ToolTip.Tip="Move down (Ctrl+Down)" MinWidth="50" FontSize="12"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Status bar -->
+        <Border DockPanel.Dock="Bottom" Padding="12,4"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+            <TextBlock Text="{Binding ParseStatus}" FontSize="12"
+                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+        </Border>
+
+        <!-- Editable tree -->
+        <TreeView ItemsSource="{Binding Nodes}"
+                  SelectedItem="{Binding SelectedNode}"
+                  Margin="8"
+                  Name="OutlineTree">
+            <TreeView.ItemTemplate>
+                <TreeDataTemplate ItemsSource="{Binding Children}" x:DataType="m:OutlineNode">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock Text="&#x2022;"
+                                   IsVisible="{Binding IsBullet}"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   Margin="0,0,0,0" FontSize="14"/>
+                        <TextBox Text="{Binding Title, Mode=TwoWay}"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 FontSize="14"
+                                 Padding="4,2"
+                                 MinWidth="200"
+                                 Watermark="Enter text..."/>
+                        <Button Content="&#x25B6;" FontSize="9"
+                                Padding="4,1" MinWidth="0" MinHeight="0"
+                                Background="Transparent" BorderThickness="0"
+                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                VerticalAlignment="Center"
+                                ToolTip.Tip="Preview this card"
+                                Click="OnPreviewClick"/>
+                    </StackPanel>
+                </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </DockPanel>
+</UserControl>

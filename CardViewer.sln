@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{472880F2-A5BC-4F8B-A400-5465A712CD95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardViewer", "src\CardViewer\CardViewer.csproj", "{D926B7AA-6A29-4077-AC02-05AA7EEC9460}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BE6DBC91-BAF6-4F48-9B1F-ECFBD12844E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardViewer.Tests", "tests\CardViewer.Tests\CardViewer.Tests.csproj", "{C5AB5FE9-4147-4C28-A2F7-05609B19E313}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D926B7AA-6A29-4077-AC02-05AA7EEC9460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D926B7AA-6A29-4077-AC02-05AA7EEC9460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D926B7AA-6A29-4077-AC02-05AA7EEC9460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D926B7AA-6A29-4077-AC02-05AA7EEC9460}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5AB5FE9-4147-4C28-A2F7-05609B19E313}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5AB5FE9-4147-4C28-A2F7-05609B19E313}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5AB5FE9-4147-4C28-A2F7-05609B19E313}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5AB5FE9-4147-4C28-A2F7-05609B19E313}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D926B7AA-6A29-4077-AC02-05AA7EEC9460} = {472880F2-A5BC-4F8B-A400-5465A712CD95}
+		{C5AB5FE9-4147-4C28-A2F7-05609B19E313} = {BE6DBC91-BAF6-4F48-9B1F-ECFBD12844E6}
+	EndGlobalSection
+EndGlobal

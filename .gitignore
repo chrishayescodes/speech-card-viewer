@@ -1,0 +1,37 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## NuGet
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nupkg
+**/[Pp]roject.lock.json
+**/[Pp]roject.fragment.lock.json
+artifacts/
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+bld/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+
+## IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*~
+
+## macOS
+.DS_Store
+Thumbs.db
