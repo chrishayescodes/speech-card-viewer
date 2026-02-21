@@ -13,6 +13,16 @@ Write a speech outline in a text or structured editor, then flip through it as a
 
 See [FEATURES.md](FEATURES.md) for the full feature list.
 
+## Screenshots
+
+| Text Editor | Structured Editor |
+|-------------|-------------------|
+| ![Text editor](assets/2026-02-20_22-46-39.png) | ![Structured editor](assets/2026-02-20_22-47-23.png) |
+
+| Practice Mode |
+|---------------|
+| ![Practice mode](assets/2026-02-20_22-47-45.png) |
+
 ## Prerequisites
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
