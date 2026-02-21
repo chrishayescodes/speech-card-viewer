@@ -35,6 +35,9 @@ public partial class CardViewerViewModel : ViewModelBase
     private bool _isSidebarOpen = true;
 
     [ObservableProperty]
+    private double _sidebarWidth = 220;
+
+    [ObservableProperty]
     private string _showTitle = "";
 
     public ObservableCollection<OutlineNode> OutlineNodes { get; } = new();

@@ -50,7 +50,12 @@
         </Border>
 
         <!-- Main content area with sidebar -->
-        <Grid ColumnDefinitions="Auto,*">
+        <Grid Name="SidebarGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220" MinWidth="120" MaxWidth="500"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <!-- Sidebar -->
             <DockPanel Grid.Column="0">
                 <!-- Sidebar header -->
@@ -82,7 +87,7 @@
 
                 <!-- Tree panel -->
                 <Border IsVisible="{Binding IsSidebarOpen}"
-                        Width="220"
+                        HorizontalAlignment="Stretch"
                         BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
                         BorderThickness="0,0,1,0"
                         Padding="4,0,4,4">
@@ -109,8 +114,15 @@
                 </Border>
             </DockPanel>
 
+            <!-- Resize splitter -->
+            <GridSplitter Grid.Column="1"
+                          Width="4"
+                          ResizeDirection="Columns"
+                          Background="Transparent"
+                          IsVisible="{Binding IsSidebarOpen}"/>
+
             <!-- Centered card area -->
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="2">
                 <!-- The 3x5 card -->
                 <Border HorizontalAlignment="Center" VerticalAlignment="Center"
                         Width="500" Height="300"
