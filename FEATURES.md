@@ -59,6 +59,8 @@ Speech Card Viewer is a cross-platform desktop app for creating speech outlines 
 
 ### Outline Sidebar
 - Toggleable sidebar showing the full outline tree
+- Resizable via drag handle (120px–500px, default 220px)
+- Sidebar width preserved when switching between Editor and Practice views
 - Current card highlighted in the tree
 - Click any node to jump to the first card in that section
 - Expand All / Collapse All buttons

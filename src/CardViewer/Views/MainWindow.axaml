@@ -110,8 +110,15 @@
                 Padding="12,4"
                 BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
                 BorderThickness="0,1,0,0">
-            <TextBlock Text="{Binding StatusMessage}" FontSize="12"
-                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Right" FontSize="11"
+                           Foreground="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                           VerticalAlignment="Center">
+                    Free software — github.com/chrishayescodes/speech-card-viewer
+                </TextBlock>
+                <TextBlock Text="{Binding StatusMessage}" FontSize="12"
+                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            </DockPanel>
         </Border>
 
         <!-- Main content area -->

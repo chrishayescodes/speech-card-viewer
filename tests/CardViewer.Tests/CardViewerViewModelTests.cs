@@ -290,6 +290,41 @@ public class CardViewerViewModelTests
         Assert.True(vm.IsSidebarOpen);
     }
 
+    // --- Sidebar Width ---
+
+    [Fact]
+    public void SidebarWidth_DefaultIs220()
+    {
+        var (cards, nodes) = BuildCards("A\n   B");
+        var vm = new CardViewerViewModel(cards, nodes);
+
+        Assert.Equal(220, vm.SidebarWidth);
+    }
+
+    [Fact]
+    public void SidebarWidth_CanBeChanged()
+    {
+        var (cards, nodes) = BuildCards("A\n   B");
+        var vm = new CardViewerViewModel(cards, nodes);
+
+        vm.SidebarWidth = 350;
+
+        Assert.Equal(350, vm.SidebarWidth);
+    }
+
+    [Fact]
+    public void SidebarWidth_PreservedAcrossToggle()
+    {
+        var (cards, nodes) = BuildCards("A\n   B");
+        var vm = new CardViewerViewModel(cards, nodes);
+
+        vm.SidebarWidth = 300;
+        vm.ToggleSidebarCommand.Execute(null);
+        vm.ToggleSidebarCommand.Execute(null);
+
+        Assert.Equal(300, vm.SidebarWidth);
+    }
+
     // --- Highlight ---
 
     [Fact]
