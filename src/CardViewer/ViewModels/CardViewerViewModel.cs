@@ -34,13 +34,17 @@ public partial class CardViewerViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isSidebarOpen = true;
 
+    [ObservableProperty]
+    private string _showTitle = "";
+
     public ObservableCollection<OutlineNode> OutlineNodes { get; } = new();
 
     public int TotalCards => _cards.Count;
 
-    public CardViewerViewModel(List<SpeechCard> cards, List<OutlineNode>? outlineNodes = null, int startIndex = 0)
+    public CardViewerViewModel(List<SpeechCard> cards, List<OutlineNode>? outlineNodes = null, int startIndex = 0, string showTitle = "")
     {
         _cards = cards;
+        ShowTitle = showTitle;
 
         if (outlineNodes != null)
         {

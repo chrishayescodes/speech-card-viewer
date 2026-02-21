@@ -27,6 +27,8 @@ public partial class MainWindowViewModel : ViewModelBase
     private readonly OutlineEditorViewModel _editorViewModel;
     private CardViewerViewModel? _cardViewerViewModel;
     private string _lastOutlineText = "";
+    private string _lastShowTitle = "";
+    private string? _currentFilePath;
 
     public MainWindowViewModel()
     {
@@ -49,8 +51,8 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         var currentText = _editorViewModel.GetOutlineText();
 
-        // Reuse cached viewer if outline hasn't changed
-        if (_cardViewerViewModel != null && currentText == _lastOutlineText)
+        // Reuse cached viewer if outline and title haven't changed
+        if (_cardViewerViewModel != null && currentText == _lastOutlineText && _editorViewModel.ShowTitle == _lastShowTitle)
         {
             CurrentView = _cardViewerViewModel;
             IsEditorActive = false;
@@ -74,18 +76,31 @@ public partial class MainWindowViewModel : ViewModelBase
         }
 
         _lastOutlineText = currentText;
-        _cardViewerViewModel = new CardViewerViewModel(cards, nodes);
+        _lastShowTitle = _editorViewModel.ShowTitle;
+        _cardViewerViewModel = new CardViewerViewModel(cards, nodes, showTitle: _editorViewModel.ShowTitle);
         CurrentView = _cardViewerViewModel;
         IsEditorActive = false;
         IsPracticeActive = true;
         StatusMessage = $"Practice mode — {cards.Count} cards";
     }
 
+    public bool HasFilePath => _currentFilePath != null;
+
     public async Task SaveOutlineAsync(string filePath)
     {
-        var outline = _parser.ParseToOutline(_editorViewModel.GetOutlineText());
+        var text = _editorViewModel.GetOutlineText();
+        var nodes = _editorViewModel.GetParsedNodes();
+        var title = _editorViewModel.ShowTitle;
+        var outline = _parser.ParseToOutline(text, string.IsNullOrEmpty(title) ? "Untitled Outline" : title);
         await _persistence.SaveAsync(outline, filePath);
+        _currentFilePath = filePath;
         StatusMessage = $"Saved to {Path.GetFileName(filePath)}";
+    }
+
+    public async Task SaveAsync()
+    {
+        if (_currentFilePath != null)
+            await SaveOutlineAsync(_currentFilePath);
     }
 
     public async Task OpenOutlineAsync(string filePath)
@@ -96,12 +111,14 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             var text = await File.ReadAllTextAsync(filePath);
             _editorViewModel.LoadOutlineText(text);
+            _currentFilePath = null;
             StatusMessage = $"Imported {Path.GetFileName(filePath)}";
         }
         else
         {
             var outline = await _persistence.LoadAsync(filePath);
-            _editorViewModel.LoadOutlineText(OutlineToText(outline));
+            _editorViewModel.LoadOutlineText(OutlineToText(outline), outline.Name);
+            _currentFilePath = filePath;
             StatusMessage = $"Opened {Path.GetFileName(filePath)}";
         }
 
@@ -120,7 +137,7 @@ public partial class MainWindowViewModel : ViewModelBase
             StatusMessage = "No cards to export";
             return;
         }
-        _pdfExporter.ExportCards(cards, filePath);
+        _pdfExporter.ExportCards(cards, filePath, _editorViewModel.ShowTitle);
         StatusMessage = $"Exported {cards.Count} cards to {Path.GetFileName(filePath)}";
     }
 
@@ -166,7 +183,8 @@ public partial class MainWindowViewModel : ViewModelBase
         }
 
         _lastOutlineText = _editorViewModel.GetOutlineText();
-        _cardViewerViewModel = new CardViewerViewModel(cards, nodes, bestIndex);
+        _lastShowTitle = _editorViewModel.ShowTitle;
+        _cardViewerViewModel = new CardViewerViewModel(cards, nodes, bestIndex, _editorViewModel.ShowTitle);
         CurrentView = _cardViewerViewModel;
         IsEditorActive = false;
         IsPracticeActive = true;

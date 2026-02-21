@@ -3,6 +3,7 @@
              x:Class="CardViewer.App"
              xmlns:local="using:CardViewer"
              xmlns:conv="using:CardViewer.Converters"
+             Name="Speech Card Viewer"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 

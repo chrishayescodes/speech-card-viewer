@@ -67,6 +67,13 @@
                                  Padding="4,2"
                                  MinWidth="200"
                                  Watermark="Enter text..."/>
+                        <Button Content="&#x1F5D1;" FontSize="9"
+                                Padding="4,1" MinWidth="0" MinHeight="0"
+                                Background="Transparent" BorderThickness="0"
+                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                VerticalAlignment="Center"
+                                ToolTip.Tip="Delete (Del)"
+                                Click="OnDeleteClick"/>
                         <Button Content="&#x25B6;" FontSize="9"
                                 Padding="4,1" MinWidth="0" MinHeight="0"
                                 Background="Transparent" BorderThickness="0"

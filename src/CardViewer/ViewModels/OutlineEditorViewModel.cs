@@ -27,6 +27,9 @@ public partial class OutlineEditorViewModel : ViewModelBase
     [ObservableProperty]
     private string _editorModeLabel = "Structured";
 
+    [ObservableProperty]
+    private string _showTitle = "";
+
     public event Action<OutlineNode>? NodeDoubleClicked;
 
     public StructuredEditorViewModel StructuredEditor { get; } = new();
@@ -90,10 +93,31 @@ public partial class OutlineEditorViewModel : ViewModelBase
         return OutlineText;
     }
 
-    public void LoadOutlineText(string text)
+    public void LoadOutlineText(string text, string? title = null)
     {
         OutlineText = text;
         if (IsStructuredMode)
             StructuredEditor.LoadFromText(text);
+
+        if (title != null)
+            ShowTitle = title;
+        else
+            AutoDetectTitle();
+    }
+
+    private void AutoDetectTitle()
+    {
+        // Only auto-detect if user hasn't typed a custom title
+        var text = GetOutlineText();
+        var mdTitle = OutlineParser.ExtractTitle(text);
+        if (!string.IsNullOrEmpty(mdTitle))
+        {
+            ShowTitle = mdTitle;
+            return;
+        }
+
+        var nodes = GetParsedNodes();
+        if (nodes.Count == 1)
+            ShowTitle = nodes[0].Title;
     }
 }

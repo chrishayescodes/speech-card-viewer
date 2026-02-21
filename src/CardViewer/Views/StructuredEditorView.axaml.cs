@@ -50,6 +50,11 @@ public partial class StructuredEditorView : UserControl
                 vm.DemoteCommand.Execute(null);
                 e.Handled = true;
                 break;
+            case Key.Delete when e.Source is not TextBox:
+            case Key.Back when ctrl && e.Source is not TextBox:
+                vm.RemoveItemCommand.Execute(null);
+                e.Handled = true;
+                break;
             case Key.Up when ctrl:
                 vm.MoveUpCommand.Execute(null);
                 e.Handled = true;
@@ -58,6 +63,16 @@ public partial class StructuredEditorView : UserControl
                 vm.MoveDownCommand.Execute(null);
                 e.Handled = true;
                 break;
+        }
+    }
+
+    public void OnDeleteClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.DataContext is OutlineNode node
+            && DataContext is StructuredEditorViewModel vm)
+        {
+            vm.SelectedNode = node;
+            vm.RemoveItemCommand.Execute(null);
         }
     }
 

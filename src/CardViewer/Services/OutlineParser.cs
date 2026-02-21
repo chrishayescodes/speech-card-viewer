@@ -132,6 +132,17 @@ public class OutlineParser
         return new ParseResult(rootNodes);
     }
 
+    public static string ExtractTitle(string text)
+    {
+        foreach (var line in text.Split('\n'))
+        {
+            var trimmed = line.TrimStart();
+            if (trimmed.StartsWith("# ") && !trimmed.StartsWith("## "))
+                return trimmed[2..].Trim();
+        }
+        return "";
+    }
+
     public Outline ParseToOutline(string text, string name = "Untitled Outline")
     {
         var result = Parse(text);

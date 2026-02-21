@@ -10,6 +10,17 @@
              x:DataType="vm:OutlineEditorViewModel">
 
     <DockPanel>
+        <!-- Show title field -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal"
+                    Margin="12,6,12,2" Spacing="8">
+            <TextBlock Text="Title:" VerticalAlignment="Center"
+                       FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            <TextBox Text="{Binding ShowTitle}" Watermark="Show title (auto-detected)"
+                     FontSize="12" MinWidth="300" Padding="6,3"
+                     BorderThickness="0,0,0,1" CornerRadius="0"
+                     Background="Transparent"/>
+        </StackPanel>
+
         <!-- Editor mode tabs -->
         <Border DockPanel.Dock="Top"
                 BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"

@@ -7,7 +7,7 @@ namespace CardViewer.Services;
 
 public class PdfExporter
 {
-    public void ExportCards(List<SpeechCard> cards, string outputPath)
+    public void ExportCards(List<SpeechCard> cards, string outputPath, string showTitle = "")
     {
         QuestPDF.Settings.License = LicenseType.Community;
 
@@ -23,6 +23,15 @@ public class PdfExporter
 
                     page.Content().Column(col =>
                     {
+                        // Show title with horizontal rule
+                        if (!string.IsNullOrEmpty(showTitle))
+                        {
+                            col.Item().Text(showTitle)
+                                .FontSize(7).FontColor(Colors.Grey.Medium);
+                            col.Item().PaddingTop(2).PaddingBottom(4)
+                                .LineHorizontal(0.5f).LineColor(Colors.Grey.Lighten2);
+                        }
+
                         // Hierarchy — escalating size toward topic
                         foreach (var item in card.HierarchyItems)
                         {

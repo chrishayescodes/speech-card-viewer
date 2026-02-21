@@ -22,7 +22,7 @@ public partial class MainWindow : Window
             AllowMultiple = false,
             FileTypeFilter = new[]
             {
-                new FilePickerFileType("Card Viewer Files") { Patterns = new[] { "*.cardviewer.json" } },
+                new FilePickerFileType("Card Viewer Files") { Patterns = new[] { "*.cdv", "*.cardviewer.json" } },
                 new FilePickerFileType("Markdown Files") { Patterns = new[] { "*.md", "*.txt" } },
                 new FilePickerFileType("All Files") { Patterns = new[] { "*" } }
             }
@@ -57,14 +57,33 @@ public partial class MainWindow : Window
 
     private async void OnSaveClick(object? sender, RoutedEventArgs e)
     {
+        if (ViewModel == null) return;
+
+        if (ViewModel.HasFilePath)
+        {
+            await ViewModel.SaveAsync();
+        }
+        else
+        {
+            await SaveAsAsync();
+        }
+    }
+
+    private async void OnSaveAsClick(object? sender, RoutedEventArgs e)
+    {
+        await SaveAsAsync();
+    }
+
+    private async Task SaveAsAsync()
+    {
         var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            Title = "Save Outline",
-            DefaultExtension = "cardviewer.json",
+            Title = "Save Outline As",
+            DefaultExtension = "cdv",
             SuggestedFileName = "outline",
             FileTypeChoices = new[]
             {
-                new FilePickerFileType("Card Viewer Files") { Patterns = new[] { "*.cardviewer.json" } }
+                new FilePickerFileType("Card Viewer Files") { Patterns = new[] { "*.cdv" } }
             }
         });
 

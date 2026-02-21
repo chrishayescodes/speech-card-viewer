@@ -20,7 +20,8 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_Open..." Click="OnOpenClick"/>
                 <MenuItem Header="_Import Markdown..." Click="OnImportClick"/>
-                <MenuItem Header="_Save..." Click="OnSaveClick"/>
+                <MenuItem Header="_Save" Click="OnSaveClick" InputGesture="Ctrl+S"/>
+                <MenuItem Header="Save _As..." Click="OnSaveAsClick" InputGesture="Ctrl+Shift+S"/>
                 <Separator/>
                 <MenuItem Header="_Export PDF..." Click="OnExportPdfClick"/>
             </MenuItem>

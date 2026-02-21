@@ -120,6 +120,15 @@
                         BorderBrush="#E0E0E0" BorderThickness="1"
                         Padding="14,10">
                     <DockPanel>
+                        <!-- Show title with horizontal rule -->
+                        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,6"
+                                    IsVisible="{Binding ShowTitle, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                            <TextBlock Text="{Binding ShowTitle}"
+                                       FontSize="11" Foreground="#999999"
+                                       TextTrimming="CharacterEllipsis"/>
+                            <Border Height="1" Background="#DDDDDD" Margin="0,3,0,0"/>
+                        </StackPanel>
+
                         <!-- Hierarchy — escalating size toward topic -->
                         <ItemsControl DockPanel.Dock="Top"
                                       ItemsSource="{Binding CurrentCard.HierarchyItems}"
